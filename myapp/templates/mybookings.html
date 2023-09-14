@@ -1,0 +1,139 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+
+<body>
+     <!-- bradcam_area -->
+     <div class="bradcam_area">
+        <div class="single_bradcam  d-flex align-items-center bradcam_bg_1 overlay">
+              <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                       <div class="col-xl-12">
+                          <div class="bradcam_text text-center">
+                            <div class="shape_1 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+                                <img src="img/shape/shape_1.svg" alt="">
+                            </div>
+                            <div class="shape_2 wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
+                                <img src="img/shape/shape_2.svg" alt="">
+                            </div>
+                                <h3 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay=".3s">My Bookings</h3>
+                          </div>
+                       </div>
+                    </div>
+              </div>
+           </div>
+     </div>
+    <!-- bradcam_area end -->
+
+    <!-- performar_area_start  -->
+    <div class="performar_area black_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section_title mb-80">
+                        <h3 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay=".3s">My Bookings</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="row">
+                       
+                        {% for i in bookings %}
+
+                        <div class="col-lg-6 col-md-6">
+                            <div class="single_performer wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+                                <div data-tilt class="thumb">
+                                    <img src="{{i.artist.artist.profile_pic.url}}" alt="" style="width:300px;height:300px;">
+                                </div>
+                                <div class="performer_heading">
+                                    <h4><a href="">{{i.artist.artist_category}}</a></h4>
+                                    <span>Fees : {{i.artist.artist_fees}}</span>
+                                    <br>
+                                    <span>Date : {{i.date}}</span>
+                                    <br>
+                                    <span>Venue : {{i.venue}}</span>
+                                    <br>
+                                    <span>Time : {{i.time}}</span>
+                                    <br>
+                                    <span>Artist Confirmation : 
+                                        {% if i.artist_confirmation == False %}
+                                            Pending
+                                        {% else %}
+                                            Confirmed
+                                        {% endif %}
+                                    </span>
+                                    <span>Payment Status : 
+                                        {% if i.payment_status == True %}
+                                            <form method="post">
+                                                
+                                                <button type="button" class="btn btn-lg btn-primary" id="checkout-button" disabled>Paid</button>
+                                            </form>
+                                        {% elif i.artist_confirmation == True  and i.payment_status == False %}
+                                            <form method="post">
+                                                <input type="hidden" id="bid" value="{{i.pk}}">
+                                                <button type="button" class="btn btn-lg btn-primary" id="checkout-button" onclick="payment();">Make Payment</button>
+                                            </form>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- performar_area_end  -->
+
+
+<script type="text/javascript">
+    var stripe = Stripe('pk_test_51MshH6SJuXwPfjjrrgxJ5tubbOgYAhRrqNcd4RDUSq1peWpIMZrjhIiTncSUWO9u6byeDf4KxdZPkFD4hU55mVOg00aRL5RT8x');
+    
+
+     function payment() {
+        alert("function calle");
+        var bid = document.getElementById('bid').value;
+        alert(bid);
+        var obj={"amount":"1000","bid":bid}
+        alert(obj);
+        fetch('/create-checkout-session/', {
+        method: 'POST',
+        headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify(obj)
+    })
+ .then(function(response) {
+ return response.json();
+ })
+ .then(function(session) {
+ return stripe.redirectToCheckout({ sessionId: session.id });
+ })
+ .then(function(result) {
+ // If `redirectToCheckout` fails due to a browser or network
+ // error, you should display the localized error message to your
+ // customer using `error.message`.
+ if (result.error) {
+ alert(result.error.message);
+ }
+ })
+ .catch(function(error) {
+ console.error('Error:', error);
+ });
+ };
+ </script>
+</body>
+
+</html>
+{% endblock %}

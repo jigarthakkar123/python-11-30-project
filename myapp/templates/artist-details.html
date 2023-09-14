@@ -1,0 +1,64 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+    
+</head>
+
+<body>
+    
+    <!-- performar_area_start  -->
+    <div class="performar_area black_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section_title mb-80">
+                        <h3 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay=".3s">{{artist_profile.artist.fname}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div  class="single_performer wow fadeInUp" data-wow-duration="1s" data-wow-delay=".3s">
+                                <div data-tilt class="thumb">
+                                    <img src="{{artist_profile.picture1.url}}" alt="" style="height:250px;width: 250px;">
+                                     <img src="{{artist_profile.picture2.url}}" alt="" style="height:250px;width: 250px;">
+                                     <img src="{{artist_profile.picture3.url}}" alt="" style="height:250px;width: 250px;">
+                                </div>
+                                
+                                <div class="performer_heading">
+                                    <h4>Name : {{artist_profile.artist.fname}}</h4>
+                                    <span>Category : {{artist_profile.artist_category}}</span>
+                                    <br>
+                                    <span>Deatils : {{artist_profile.artist_desc}}</span>
+                                    <br>
+                                    <span>Booking Amount : {{artist_profile.artist_fees}}</span>
+                                </div>
+                                {% if request.session.email %}
+                                    <a href="{% url 'book-artist' pk=artist_profile.pk %}"><input type="button" value="Book Now" class="btn btn-primary"></a>
+                                {% else %}
+                                    <a href="{% url 'login' %}"><input type="button" value="Login To Book" class="btn btn-primary"></a>
+                                {% endif %}
+                            </div>
+                        </div>
+                      
+                       
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- performar_area_end  -->
+
+    
+    
+</body>
+
+</html>
+{% endblock %}

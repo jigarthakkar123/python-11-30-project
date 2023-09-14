@@ -1,0 +1,221 @@
+{% extends 'artist-header.html' %}
+{% load static %}
+{% block content %}
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<head>
+ 
+</head>
+
+<body>
+     <!-- bradcam_area -->
+     <div class="bradcam_area">
+        <div class="single_bradcam  d-flex align-items-center bradcam_bg_1 overlay">
+              <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                       <div class="col-xl-12">
+                          <div class="bradcam_text text-center">
+                            <div class="shape_1 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+                                <img src="img/shape/shape_1.svg" alt="">
+                            </div>
+                            <div class="shape_2 wow fadeInDown" data-wow-duration="1s" data-wow-delay=".3s">
+                                <img src="img/shape/shape_2.svg" alt="">
+                            </div>
+                                <h3 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay=".3s">Profile</h3>
+                          </div>
+                       </div>
+                    </div>
+              </div>
+           </div>
+     </div>
+    <!-- bradcam_area end -->
+
+    <!-- ================ contact section start ================= -->
+    <section class="contact-section">
+            <div class="container">
+    
+    
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="contact-title">Profile</h2>
+                    </div>
+                    <div class="col-lg-8">
+                        {% if msg %}
+                            <b style="color: blue;">{{msg}}</b>
+                        {% endif %}
+                        <form class="form-contact contact_form" action="{% url 'artist-profile' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="fname" id="name" type="text" value="{{artist.fname}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="lname" id="name" type="text" value="{{artist.lname}}">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="email" id="email" type="email" value="{{artist.email}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="mobile" id="name" type="text" value="{{artist.mobile}}">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="address" id="message" cols="30" rows="9">{{artist.address}}</textarea>
+                                    </div>
+                                </div>
+                               <div class="col-sm-12">
+                                    <div class="form-group">
+                                       <img src="{{artist.profile_pic.url}}" width="100px" height="100px">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="profile_pic" id="name" type="file">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <select name="artist_category" class="form-control valid" id="name">
+                                            {% if artist_profile.artist_category == "Painter" %}
+                                                <option>---Select Category---</option>
+                                                <option value="Painter" selected>Painter</option>
+                                                <option value="Singer">Singer</option>
+                                                <option value="Dancer">Dancer</option>
+                                                <option value="Comedian">Comedian</option>
+                                            {% elif artist_profile.artist_category == "Singer" %}
+                                                <option>---Select Category---</option>
+                                                <option value="Painter">Painter</option>
+                                                <option value="Singer" selected>Singer</option>
+                                                <option value="Dancer">Dancer</option>
+                                                <option value="Comedian">Comedian</option>
+                                            {% elif artist_profile.artist_category == "Dancer" %}
+                                                <option>---Select Category---</option>
+                                                <option value="Painter">Painter</option>
+                                                <option value="Singer">Singer</option>
+                                                <option value="Dancer" selected>Dancer</option>
+                                                <option value="Comedian">Comedian</option>
+                                            {% elif artist_profile.artist_category == "Comedian" %}
+                                                <option>---Select Category---</option>
+                                                <option value="Painter">Painter</option>
+                                                <option value="Singer">Singer</option>
+                                                <option value="Dancer">Dancer</option>
+                                                <option value="Comedian" selected>Comedian</option>
+                                            {% else %}
+                                                <option>---Select Category---</option>
+                                                <option value="Painter">Painter</option>
+                                                <option value="Singer">Singer</option>
+                                                <option value="Dancer">Dancer</option>
+                                                <option value="Comedian">Comedian</option>
+                                            {% endif %}
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="artist_fees" id="name" type="text" value="{{artist_profile.artist_fees}}" placeholder="Artist Fees">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control w-100" name="artist_desc" id="message" cols="30" rows="9" placeholder="Artist Details">{{artist_profile.artist_desc}}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                       <img src="{{artist_profile.picture1.url}}" width="100px" height="100px">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="picture1" id="name" type="file">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                       <img src="{{artist_profile.picture2.url}}" width="100px" height="100px">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="picture2" id="name" type="file">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                       <img src="{{artist_profile.picture3.url}}" width="100px" height="100px">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <input class="form-control valid" name="picture3" id="name" type="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <button type="submit" class="button button-contactForm boxed-btn">Update Profile</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+    <!-- ================ contact section end ================= -->
+    
+    <!-- brand_area_start  -->
+    <div class="brand_area black_bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section_title text-center mb-80">
+                        <h4 class="wow fadeInRight" data-wow-duration="1s" data-wow-delay=".3s">Sponsor Logos</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="brand_wrap">
+                        <div class="brand_active owl-carousel">
+                            <div class="single_brand text-center">
+                                <img src="img/brand/1.png" alt="">
+                            </div>
+                            <div class="single_brand text-center">
+                                <img src="img/brand/2.png" alt="">
+                            </div>
+                            <div class="single_brand text-center">
+                                <img src="img/brand/3.png" alt="">
+                            </div>
+                            <div class="single_brand text-center">
+                                <img src="img/brand/4.png" alt="">
+                            </div>
+                            <div class="single_brand text-center">
+                                <img src="img/brand/5.png" alt="">
+                            </div>
+                            <div class="single_brand text-center">
+                                <img src="img/brand/1.png" alt="">
+                            </div>
+                            <div class="single_brand text-center">
+                                <img src="img/brand/2.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- brand_area_end  -->
+    </body>
+    
+    </html>
+    {% endblock %}
